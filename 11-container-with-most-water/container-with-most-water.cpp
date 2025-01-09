@@ -15,22 +15,6 @@ public:
             }
         }
 
-
-        // for (int left = 0; left < height.size(); ++left) {
-        //     int right = height.size() - 1;
-        //     int currentMaxArea = 0;
-        //     while (left < right) {
-        //         int minHeight = std::min(height[left], height[right]);
-        //         int base = right - left;
-        //         currentMaxArea = base*minHeight;
-        //         if (currentMaxArea > maxArea) {
-        //             maxArea = currentMaxArea;
-        //         }
-        //         if ()
-        //         --right;
-        //     }
-        // }
-
         return maxArea;
     }
 };
