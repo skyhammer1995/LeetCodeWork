@@ -7,12 +7,8 @@ public:
 
          while (left < right) {
             maxArea = std::max(maxArea, ((right - left) * std::min(*left, *right)));
-            std::cout << maxArea << std::endl;
-            if (*left > *right) {
-                --right;
-            } else {
-                ++left;
-            }
+                
+            *left > *right ? --right : ++left;
         }
 
         return maxArea;
