@@ -1,15 +1,35 @@
 class Solution {
 public:
     vector<int> searchRange(vector<int>& nums, int target) {
-        std::vector<int>::iterator front = std::find(nums.begin(), nums.end(), target);
-        std::vector<int>::reverse_iterator back = std::find(nums.rbegin(), nums.rend(), target);
+        vector<int> result = {-1, -1};
+        int left = 0;
+        int right = nums.size() - 1;
 
-        if (front != nums.end() && back != nums.rend()) {
-            std::vector<int> result;
-            result.push_back(std::distance(nums.begin(), front));
-            result.push_back(std::distance(back, nums.rend() - 1));
-            return result;
+        while (left <= right) {
+            int mid = (right + left) / 2;
+            if (nums[mid] >= target) {
+                if (nums[mid] == target) {
+                    result[0] = mid;
+                }
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
         }
-        return {-1, -1};
+
+        left = 0;
+        right = nums.size() - 1;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (nums[mid] <= target) {
+                if (nums[mid] == target) {
+                    result[1] = mid;
+                }
+                left = mid + 1; 
+            } else {
+                right = mid - 1;
+            }
+        }
+        return result;
     }
 };
