@@ -5,19 +5,21 @@ public:
             return false;
         }
 
-        for (std::vector<std::vector<int>>::iterator rows = matrix.begin(); rows != matrix.end();) {
-            if (rows->empty() || rows->back() < target ) {
-                // target could be in next row, iterate to the next row
-                ++rows;
-            } else if (rows->front() > target) {
-                // target was not in previous row, and cannot be found; target is not in the matrix
-                return false;
-            } else if (rows->front() <= target && target <= rows->back()) {
-                // target should be within this row, return false if we don't find it (we could also break out for same result, but I'd rather be explicit for clarity)
-                if (std::find(rows->begin(), rows->end(), target) != rows->end()) {
-                    return true;
-                } else {
-                    return false;
+        for (const std::vector<int>& row : matrix) {
+            if (target >= row.front() && target <= row.back()) {
+                int left = 0;
+                int right = row.size() - 1;
+
+                while (left <= right) {
+                    int mid = left + (right - left) / 2;
+
+                    if (row[mid] == target) {
+                        return true;
+                    } else if (row[mid] < target) {
+                        left = mid + 1;
+                    } else if (row[mid] > target) {
+                        right = mid - 1;
+                    }
                 }
             }
         }
