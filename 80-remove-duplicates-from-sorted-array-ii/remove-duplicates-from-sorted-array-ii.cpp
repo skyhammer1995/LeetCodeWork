@@ -1,21 +1,16 @@
 class Solution {
 public:
     int removeDuplicates(vector<int>& nums) {
-        vector<int>::iterator slow = nums.begin();
-        vector<int>::iterator fast = nums.begin() + 1;
-
-        while (fast != nums.end()) {
-            if (((*slow) == (*fast)) && 
-                (std::distance(slow, fast) > 1)) {
-                fast = nums.erase(fast);
-            } else if ((*slow) == (*fast)) {
-                ++fast;
-            } else {
-                slow = fast;
-                ++fast;
-            }
+        if (nums.size() <= 2){
+            return nums.size();
         }
 
-        return nums.size();
+        int k = 2;
+        for (int i = 2; i < nums.size(); i++) {
+            if (nums[i] != nums[k-2]) {
+                nums[k++] = nums[i];
+            }
+        }
+        return k;
     }
 };
