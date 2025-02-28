@@ -16,6 +16,6 @@ public:
                 minBuy = price;
             } 
         }
-        return std::max(totalProfit, currentMaxProfit);
+        return totalProfit;
     }
 };
