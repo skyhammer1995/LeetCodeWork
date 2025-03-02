@@ -5,21 +5,35 @@ public:
             // will have negative symbol. Example 2 makes it so all negatives are non-palindromes
             return false;
         }
-        // Thoughts at this point: I think we can just reverse the number,
-        // if equal, we have a palindrome, otherwise false.
         return isReversedNumberEqual(x);
     }
 
     bool isReversedNumberEqual(const int& x) {
-        std::string numberInString = std::to_string(x);
-        std::reverse(numberInString.begin(), numberInString.end());
-        // we change to long, to avoid overflow runtime errors
-        int reversedNumber = std::stol(numberInString);
-
-        if (reversedNumber == x) {
+        // trying the non-string solution
+        if (x < 10) {
+            // single digits are palindromes, and we already check for negative numbers in this execution flow.
             return true;
         }
-        return false;        
+
+        int value = x;
+        std::vector<int> numberList;
+        while (value > 0) {
+            numberList.push_back(value % 10);
+            value = value/10;
+        }
+
+        std::vector<int>::iterator front = numberList.begin();
+        std::vector<int>::iterator back = numberList.end() - 1;
+        while (front < back) {
+            if ((*front) == (*back)) {
+                ++front;
+                --back;
+            } else {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     bool isNegative(const int& val) {
