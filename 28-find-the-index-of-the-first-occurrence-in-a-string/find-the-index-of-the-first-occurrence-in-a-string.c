@@ -6,10 +6,6 @@ int strStr(char* haystack, char* needle) {
         // empty string for needle
         return 0;
     }
-    if (m > n) {
-        // needle is longer than the haystack
-        return -1;
-    }
 
     for (int i = 0; i <= n - m; i++) {
         int j = 0;
