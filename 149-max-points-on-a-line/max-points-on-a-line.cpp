@@ -13,51 +13,27 @@
 // so I can see this maybe without string conversion
 class Solution {
 public:
-// Helper function to compute gcd
-int gcd(int a, int b) {
-    return b == 0 ? a : gcd(b, a % b);
-}
-
-int maxPoints(vector<vector<int>>& points) {
-    int n = points.size();
-    if (n <= 2) return n; // 0,1,2 points are trivially collinear
-
-    int maxCount = 0; // stores the global maximum number of points on a line
-
-    for (int i = 0; i < n; ++i) { // reference point
-        unordered_map<pair<int,int>, int, 
-            function<size_t(pair<int,int>)>> slopeCount(0, 
-            [](pair<int,int> p){ return hash<long long>()(((long long)p.first) << 32 | (unsigned int)p.second); }
-        );
-
-        int curMax = 0; // max number of points sharing the same slope from i
-
-        for (int j = 0; j < n; ++j) { // all other points
-            if (i == j) continue;
-
-            int dx = points[j][0] - points[i][0];
-            int dy = points[j][1] - points[i][1];
-
-            int g = gcd(dx, dy);
-            dx /= g;
-            dy /= g;
-
-            // Ensure consistent direction: keep dx positive
-            if (dx < 0) {
-                dx = -dx;
-                dy = -dy;
-            } else if (dx == 0 && dy < 0) { // vertical line
-                dy = -dy;
+    int maxPoints(vector<vector<int>>& pt) {
+        int ans=1; 
+        int n=pt.size();
+       // slope of every point with selected point
+        for(int i=0;i<n-1;i++){
+            map<double,int> mp;
+            for(int j=i+1;j<n;j++){
+                //calculating the slope
+                double x = (double)(pt[j][1]-pt[i][1])/(double)(pt[j][0]-pt[i][0]);
+                if((pt[j][0]-pt[i][0])==0 ) //infinite slop for Perpendicular line
+                    mp[abs(x)]++; 
+                else
+               //storing the slop into map
+                    mp[x]++;
             }
-
-            pair<int,int> slope = {dy, dx};
-            slopeCount[slope]++;
-            curMax = max(curMax, slopeCount[slope]);
+            // same slope w.r.t.that selected point
+            int temp = 0;
+            for(auto it:mp)
+                temp = max(temp, it.second+1);    // +1 for the current point(point itself)
+            ans = max(temp, ans);
         }
-
-        maxCount = max(maxCount, curMax + 1); // +1 for reference point
+        return ans;
     }
-
-    return maxCount;
-}
 };
