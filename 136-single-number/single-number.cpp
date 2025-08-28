@@ -7,6 +7,8 @@ public:
         // go through the whole vector
         for (int i = 0; i < numsSize; ++i) {
             // we will XOR each element with each following, eventually resulting in only the single-instanced value being put into result
+            // as a number XOR'd with itself results in 0. 
+            // A (potentially) simple way to think about it is addition/subtraction that flip based on if the value is present in an existing sum or not.
             result ^= nums[i];
         }
 
