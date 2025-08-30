@@ -5,8 +5,9 @@ public:
     bool isHappy(int n) {
         unordered_set<int> seen; // numbers we have already seen
 
+        // break out if we've seen the sum, or if n == 1
         while(n != 1 && seen.find(n) == seen.end()) {
-            seen.insert(n);
+            seen.insert(n); // add the sum to the seen values
             int sum = 0;
             int temp = n;
             while(temp > 0) {
