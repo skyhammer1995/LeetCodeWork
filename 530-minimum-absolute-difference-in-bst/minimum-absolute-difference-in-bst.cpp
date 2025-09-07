@@ -11,7 +11,7 @@
  */
  
 // After my last implementation, I figured I'd look at expected ways of handling this problem.
-// Turns out, in-order recursion is the expected approach
+// Turns out, in-order recursion is the expected approach--but worse on space because of our vector
 class Solution {
 public:
     vector<int> v;
