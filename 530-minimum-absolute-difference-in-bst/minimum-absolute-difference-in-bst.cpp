@@ -9,29 +9,47 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
- 
-// After my last implementation, I figured I'd look at expected ways of handling this problem.
-// Turns out, in-order recursion is the expected approach--but worse on space because of our vector
 class Solution {
 public:
-    vector<int> v;
-    void inOrder(TreeNode* root)
-    {
-        if (root == NULL) {
-            return;
-        }
-        inOrder(root->left);
-        v.push_back(root->val);
-        inOrder(root->right);
-    }
-
     int getMinimumDifference(TreeNode* root) {
-        inOrder(root);
-        int mn = INT_MAX;
+        TreeNode* curr = root;
+        TreeNode* prevNode = nullptr; // for keeping track of the previously visited node
+        int minDif = INT_MAX;
 
-        for (int i = 1; i < v.size(); i++) {
-            mn = min(mn, v[i]-v[i-1]);
+        while (curr) {
+            if (curr->left == nullptr) {
+                // Process current node
+                if (prevNode) {
+                    minDif = std::min(minDif, curr->val - prevNode->val);
+                }
+                
+                // Iterate right path
+                prevNode = curr;
+                curr = curr->right;
+
+            } else {
+                // Essentially, find the rightmost in the current left path
+                TreeNode* pred = curr->left;
+                while (pred->right && pred->right != curr) {
+                    pred = pred->right;
+                }
+
+                if (pred->right == nullptr) { 
+                    pred->right = curr;
+                    curr = curr->left;
+                } else {
+                    pred->right = nullptr;
+
+                    if (prevNode) {
+                        minDif = std::min(minDif, curr->val - prevNode->val);
+                    }
+                    
+                    prevNode = curr;
+                    curr = curr->right;
+                }
+            }
         }
-        return mn;
+
+        return minDif;
     }
 };
