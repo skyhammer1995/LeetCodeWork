@@ -1,23 +1,19 @@
 class Solution {
 public:
     int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
-        int total = 0; // total net gas across all stations
-        int currentGas = 0; // current tank while simulating a section
-        int solution = 0; 
-
-        for (int i = 0; i < gas.size(); ++i) {
-            int difference = gas[i] - cost[i];
-            total += difference;
-            currentGas +=  difference;
-            
-            if (currentGas < 0) {
-                // we can't reach station i + 1
-                solution = i + 1;
-                currentGas = 0;
+        int n = gas.size();
+        int total_surplus = 0;
+        int surplus = 0;
+        int start = 0;
+       // I'm just confused why this is faster than other solutions 
+        for(int i = 0; i < n; i++){
+            total_surplus += gas[i] - cost[i];
+            surplus += gas[i] - cost[i];
+            if(surplus < 0){
+                surplus = 0;
+                start = i + 1;
             }
         }
-
-        // Was suggested to just do this, makes sense for handling when we're at size
-        return total < 0 ? -1 : solution;
+        return (total_surplus < 0) ? -1 : start;
     }
 };
